@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:youtube_clone/controller/app_controller.dart';
+import 'package:youtube_clone/src/controller/app_controller.dart';
+import 'package:youtube_clone/src/pages/explore.dart';
+import 'package:youtube_clone/src/pages/home.dart';
+import 'package:youtube_clone/src/pages/library.dart';
+import 'package:youtube_clone/src/pages/subscribe.dart';
 
 class App extends GetView<AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      //appBar: AppBar(),
+      body: Obx(() {
+        switch(RouteName.values[controller.currentIndex.value]){
+          case RouteName.Home:
+            //print(RouteName.values[controller.currentIndex.value]);
+            return Home();
+            break;
+          case RouteName.Explore:
+            return Explore();
+            break;
+          case RouteName.Subscribe:
+            return Subscribe();
+            break;
+          case RouteName.Library:
+            return Library();
+            break;
+          case RouteName.Add:
+            break;
+        }
+        return Container();
+      }),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           items: [
