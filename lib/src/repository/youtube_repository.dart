@@ -13,8 +13,8 @@ class YoutubeRepository extends GetConnect {
     httpClient.baseUrl = "https://www.googleapis.com";
   }
 
-  Future<YoutubeVideoResult> loadVideos() async{
-    String url = "/youtube/v3/search?part=snippet&channelId=UCqkb6ZB6e8PWlRkeR7F3wTQ&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyAL8XNAn9-SkYhI_fwSFeUFgXatm16eJwo";
+  Future<YoutubeVideoResult> loadVideos(String nextPageToken) async{
+    String url = "/youtube/v3/search?part=snippet&channelId=UCqkb6ZB6e8PWlRkeR7F3wTQ&maxResults=10&order=date&type=video&videoDefinition=high&key=AIzaSyAL8XNAn9-SkYhI_fwSFeUFgXatm16eJwo&pageToken=$nextPageToken";
     final response = await get(url);
     if(response.status.hasError){
       return Future.error(response.statusText);
