@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_clone/src/models/video.dart';
+import 'package:intl/intl.dart';
 
 class VideoWidget extends StatelessWidget {
+  final Video video;
+
+  const VideoWidget({Key key, this.video}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,6 +23,7 @@ class VideoWidget extends StatelessWidget {
     return Container(
       height: 250,
       color: Colors.grey.withOpacity(0.5),
+      child: Image.network(video.snippet.thumbnails.medium.url, fit: BoxFit.fitWidth,),
     );
   }
 
@@ -27,7 +34,7 @@ class VideoWidget extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              radius: 30,
+              radius: 25,
               backgroundColor: Colors.grey.withOpacity(0.5),
               backgroundImage: Image.network("https://yt3.ggpht.com/ytc/AAUvwnhXW_AiWCgbztaGTQWkpH56AHFhovdMzREKFYHs=s176-c-k-c0x00ffffff-no-rj").image,
             ),
@@ -38,7 +45,7 @@ class VideoWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text("Kim's channel 다시 보기 Kim's channel 다시 보기 Kim's channel 다시 보기 Kim's channel 다시 보기",
+                      child: Text(video.snippet.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,),
                     ),
@@ -47,11 +54,13 @@ class VideoWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text("킴스튜브", style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.8)),),
+                    Text(video.snippet.channelTitle, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.8)),),
                     Text(" ﹒ "),
-                    Text("조회수 : 1000회", style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.6)),),
+                    Text("조회수 : 9000회", style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.6)),),
                     Text(" ﹒ "),
-                    Text("2021-05-22", style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.6)),),
+                    Text(
+                      DateFormat("yyyy-MM-dd").format(video.snippet.publishedAt),
+                      style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.6)),),
                   ],
                 ),
               ],
