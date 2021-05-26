@@ -19,10 +19,11 @@ class HomeController extends GetxController {
   void _event() {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent &&
-          youtubeResult.value.nextPagetoken != "") {
+          scrollController.position.maxScrollExtent
+          && youtubeResult.value.nextPagetoken != ""
+      ) {
         _videoLoad();
-        //print("로드");
+        print("로드");
       }
     });
   }

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:youtube_clone/src/controller/youtube_detail_controller.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YoutubeDetail extends StatelessWidget {
+class YoutubeDetail extends GetView<YoutubeDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
-          Container(
-            height: 250,
-            color: Colors.grey.withOpacity(0.5),
-          ),
+          _youtubePlayer(),
           Expanded(child: _description()),
         ],
       ),
@@ -48,15 +47,15 @@ class YoutubeDetail extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.grey.withOpacity(0.5),
-              backgroundImage: Image.network("https://yt3.ggpht.com/ytc/AAUvwnhXW_AiWCgbztaGTQWkpH56AHFhovdMzREKFYHs=s176-c-k-c0x00ffffff-no-rj").image,
+              backgroundImage: Image.network(controller.youtuberThumbnailUrl).image,
             ),
             SizedBox(width: 15,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text("킴스채널", style: TextStyle(fontSize: 18),),
-                  Text("구독자 100000", style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.5)),),
+                  Text(controller.youtuberName, style: TextStyle(fontSize: 18),),
+                  Text("구독자 ${controller.videoController.youtuber.value.statistics.subscriberCount}", style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.5)),),
                 ],
               ),
             ),
@@ -78,12 +77,47 @@ class YoutubeDetail extends StatelessWidget {
     );
   }
 
+  Widget _youtubePlayer(){
+    return YoutubePlayer(
+      controller: controller.playerController,
+      showVideoProgressIndicator: true,
+      progressIndicatorColor: Colors.blueAccent,
+      topActions: <Widget>[
+        const SizedBox(width: 8.0),
+        Expanded(
+          child: Text(
+            controller.playerController.metadata.title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.settings,
+            color: Colors.white,
+            size: 25.0,
+          ),
+          onPressed: () {
+          },
+        ),
+      ],
+      onReady: () {
+      },
+      onEnded: (data) {
+      },
+    );
+  }
+
   Widget _bottonZone() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _bottonOne("like", "1000"),
-        _bottonOne("dislike", "7"),
+        _bottonOne("like", controller.likeCount),
+        _bottonOne("dislike", controller.disLikeCount),
         _bottonOne("share", "공유"),
         _bottonOne("save", "저장"),
       ],
@@ -94,7 +128,7 @@ class YoutubeDetail extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       child: Text(
-        "안녕하세요 킴스튜브 입니다. 키즈월드에 오신걸 환영합니다. 즐거운 시간 보내세요",
+        controller.description,
         style: TextStyle(fontSize: 15),
       ),
     );
@@ -108,7 +142,7 @@ class YoutubeDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "킴즈채널 유투브 영상다시보기",
+              controller.title,
               style: TextStyle(
                 fontSize: 15,
               ),
@@ -116,13 +150,13 @@ class YoutubeDetail extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "조회수 1000회",
+                  controller.viewCount,
                   style: TextStyle(
                       fontSize: 13, color: Colors.black.withOpacity(0.5)),
                 ),
                 Text(" ﹒ "),
                 Text(
-                  "2021-05-22",
+                  controller.publishedTime,
                   style: TextStyle(
                       fontSize: 13, color: Colors.black.withOpacity(0.5)),
                 ),
