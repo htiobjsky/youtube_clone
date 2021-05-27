@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget {
   @override
@@ -42,7 +43,9 @@ class CustomAppBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: GestureDetector(
-            onTap: (){},
+            onTap: (){
+              Get.toNamed("/search");
+            },
             child: Container(
               width: 23,
               height: 23,
